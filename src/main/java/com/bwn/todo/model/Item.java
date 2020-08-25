@@ -8,6 +8,7 @@ public class Item {
     private String descricao;
     private LocalDate dataCriacao;
     private boolean ativo;
+    private boolean realizado;
 
     public Long getId() {
         return id;
@@ -41,12 +42,22 @@ public class Item {
         this.ativo = ativo;
     }
 
+    public boolean isRealizado() {
+        return realizado;
+    }
+
+    public void setRealizado(boolean realizado) {
+        this.realizado = realizado;
+    }
+
     public Item() {}
 
-    public Item(Long id, String descricao, LocalDate dataCriacao, boolean ativo) {
+    public Item(Long id, String descricao, LocalDate dataCriacao, boolean ativo, boolean realizado) {
         this.id = id;
         this.descricao = descricao;
         this.dataCriacao = dataCriacao;
         this.ativo = ativo;
+        this.realizado = realizado;
     }
+
 }

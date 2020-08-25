@@ -5,6 +5,9 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.bwn.todo.database.connection.DBConnection;
 import com.bwn.todo.model.Item;
 
@@ -18,7 +21,7 @@ public class ItemDAO {
     }
 
     public void salvar(Item item) {
-        this.sql = "insert into item(id, descricao, \"dataCriacao\", ativo) values(?, ?, ?, ?)";
+        this.sql = "insert into item(id, descricao, \"dataCriacao\", ativo, realizado) values(?, ?, ?, ?, ?)";
 
         try {
 
@@ -27,6 +30,7 @@ public class ItemDAO {
             statement.setString(2, item.getDescricao());
             statement.setDate(3, Date.valueOf(item.getDataCriacao()));
             statement.setBoolean(4, item.isAtivo());
+            statement.setBoolean(5, item.isRealizado());
 
             statement.execute();
 
@@ -48,7 +52,8 @@ public class ItemDAO {
                 item = new Item(resultSet.getLong("id"),
                                 resultSet.getString("descricao"),
                                 resultSet.getDate("dataCriacao").toLocalDate(),
-                                resultSet.getBoolean("ativo"));
+                                resultSet.getBoolean("ativo"),
+                                resultSet.getBoolean("realizado"));
             }
 
             statement.execute();
@@ -85,6 +90,79 @@ public class ItemDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+	}
+
+	public Item buscarPorDescricao(String descricao) {
+        this.sql = "select * from item where descricao = ?";
+        Item item = new Item();
+
+        try {
+
+            PreparedStatement statement = this.connection.prepareStatement(sql);
+            statement.setString(1, descricao);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                item = new Item(resultSet.getLong("id"),
+                                resultSet.getString("descricao"),
+                                resultSet.getDate("dataCriacao").toLocalDate(),
+                                resultSet.getBoolean("ativo"),
+                                resultSet.getBoolean("realizado"));
+            }
+
+            statement.execute();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return item;
+	}
+
+	public List<Item> buscarTodosItensRealizados() {
+        this.sql = "select * from item where realizado = true";
+        List<Item> itensRealizados = new ArrayList<>();
+
+        try {
+            PreparedStatement statement = this.connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+
+            if(resultSet.next()) {
+                itensRealizados.add(new Item(resultSet.getLong("id"),
+                                             resultSet.getString("descricao"),
+                                             resultSet.getDate("dataCriacao").toLocalDate(),
+                                             resultSet.getBoolean("ativo"),
+                                             resultSet.getBoolean("realizado")));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return itensRealizados;
+    }
+    
+    public List<Item> buscarTodosItensAtivos() {
+        this.sql = "select * from item where ativo = true";
+        List<Item> itensRealizados = new ArrayList<>();
+
+        try {
+            PreparedStatement statement = this.connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+
+            if(resultSet.next()) {
+                itensRealizados.add(new Item(resultSet.getLong("id"),
+                                             resultSet.getString("descricao"),
+                                             resultSet.getDate("dataCriacao").toLocalDate(),
+                                             resultSet.getBoolean("ativo"),
+                                             resultSet.getBoolean("realizado")));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return itensRealizados;
 	}
 
 }

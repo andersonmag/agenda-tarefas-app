@@ -5,8 +5,8 @@ import java.sql.*;
 public class DBConnection {
 
     private static String url = "jdbc:postgresql://localhost:5432/todo_db";
-    private static String user = "postgres";
-    private static String password = "12345";
+    private static String user = "";
+    private static String password = "";
     private static Connection connection;
 
     static {

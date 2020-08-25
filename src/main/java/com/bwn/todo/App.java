@@ -1,4 +1,4 @@
-package com.bwn;
+package com.bwn.todo;
 
 public final class App {
     

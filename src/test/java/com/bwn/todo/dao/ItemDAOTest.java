@@ -1,5 +1,6 @@
 package com.bwn.todo.dao;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -66,13 +67,28 @@ public class ItemDAOTest {
     }
 
     @Test
-    @DisplayName(value = "Deve editar um Item existente!")
+    @DisplayName(value = "Deve editar e retornar um Item existente!")
     public void editarItem() {
-        Long id = 1L;
+        Long id =  1L;
         Item itemExistente = itemDAO.buscarPorId(id);
-        itemExistente.setDescricao("Nova Descrição");
 
-        itemDAO.editar(itemExistente);
+        itemExistente.setDescricao("Nova Descrição");
+        Item itemAlterado = itemDAO.editar(itemExistente);
+
+        assertNotNull(itemAlterado.getId());
+        assertEquals(itemExistente.getDescricao(), itemAlterado.getDescricao());
+    }
+
+    @Test
+    @DisplayName(value = "Deve retornar null ao tentar editar um Item com ID inexistente!")
+    public void editarItemInexistente() {
+        Long id =  15L;
+        Item itemInexistente = itemDAO.buscarPorId(id);
+        
+        itemInexistente.setDescricao("Nova Descrição");
+        Item itemAlterado = itemDAO.editar(itemInexistente);
+
+        assertNull(itemAlterado.getId());
     }
 
     @Test
@@ -88,7 +104,7 @@ public class ItemDAOTest {
     @DisplayName(value = "Deve alterar status de realizado")
     public void alterarStatusRealizado() {
         Long id = 1L;
-        boolean realizado = false;
+        boolean realizado = true;
         Item itemExistente = itemDAO.buscarPorId(id);
         itemExistente.setRealizado(realizado);
         
@@ -128,6 +144,6 @@ public class ItemDAOTest {
     }
 
     private Item getItem() {
-        return new Item(1L, "Estudar JS", LocalDate.now(), true, true);
+        return new Item("Estudar JS", LocalDate.now(), true, false);
     }
 }

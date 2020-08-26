@@ -21,16 +21,15 @@ public class ItemDAO {
     }
 
     public void salvar(Item item) {
-        this.sql = "insert into item(id, descricao, \"dataCriacao\", ativo, realizado) values(?, ?, ?, ?, ?)";
+        this.sql = "insert into item(descricao, \"dataCriacao\", ativo, realizado) values(?, ?, ?, ?)";
 
         try {
 
             PreparedStatement statement = this.connection.prepareStatement(sql);
-            statement.setLong(1, item.getId());
-            statement.setString(2, item.getDescricao());
-            statement.setDate(3, Date.valueOf(item.getDataCriacao()));
-            statement.setBoolean(4, item.isAtivo());
-            statement.setBoolean(5, item.isRealizado());
+            statement.setString(1, item.getDescricao());
+            statement.setDate(2, Date.valueOf(item.getDataCriacao()));
+            statement.setBoolean(3, item.isAtivo());
+            statement.setBoolean(4, item.isRealizado());
 
             statement.execute();
 
@@ -93,11 +92,12 @@ public class ItemDAO {
 	}
     
 	public void alterarStatusRealizado(Item item) {
-        this.sql = "update item set realizado = ? where id = " + item.getId();
+        this.sql = "update item set realizado = ?, ativo = ? where id = " + item.getId();
 
         try {
             PreparedStatement statement = this.connection.prepareStatement(sql);
             statement.setBoolean(1, item.isRealizado());
+            statement.setBoolean(2, item.isAtivo());
 
             statement.execute();
 
@@ -106,8 +106,9 @@ public class ItemDAO {
         }
 	}
 
-	public void editar(Item item) {
+	public Item editar(Item item) {
         this.sql = "update item set descricao = ? where id = " + item.getId();
+        Item itemAlterado = new Item();
 
         try {
             PreparedStatement statement = this.connection.prepareStatement(sql);
@@ -115,9 +116,13 @@ public class ItemDAO {
 
             statement.execute();
 
+            itemAlterado = buscarPorId(item.getId());
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return itemAlterado;
 
 	}
 
@@ -141,7 +146,7 @@ public class ItemDAO {
             PreparedStatement statement = this.connection.prepareStatement(sql);
             ResultSet resultSet = statement.executeQuery();
 
-            if(resultSet.next()) {
+            while(resultSet.next()) {
                 itensRealizados.add(new Item(resultSet.getLong("id"),
                                              resultSet.getString("descricao"),
                                              resultSet.getDate("dataCriacao").toLocalDate(),
@@ -164,7 +169,7 @@ public class ItemDAO {
             PreparedStatement statement = this.connection.prepareStatement(sql);
             ResultSet resultSet = statement.executeQuery();
 
-            if(resultSet.next()) {
+            while(resultSet.next()) {
                 itensRealizados.add(new Item(resultSet.getLong("id"),
                                              resultSet.getString("descricao"),
                                              resultSet.getDate("dataCriacao").toLocalDate(),

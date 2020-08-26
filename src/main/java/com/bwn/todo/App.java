@@ -23,7 +23,7 @@ public final class App {
             System.out.println("\t\t\tAdicionar um novo Item (Opção 1)");
             System.out.println("\t\t\tEditar um Item existente (Opção 2)");
             System.out.println("\t\t\tRemover um Item existente (Opção 3)");
-            System.out.println("\t\t\tBuscar um Item existente (Opção 4)");
+            System.out.println("\t\t\tBuscar um Item pela descrição (Opção 4)");
             System.out.println("\t\t\tDefinir um Item como realizado (Opção 5)");
             System.out.println();
             System.out.println("\t\t\tVer todos os itens realizados (Opção 6)");
@@ -47,7 +47,7 @@ public final class App {
 
                     itemDAO.salvar(item);
 
-                    System.out.println("Cadastrado com sucesso!!");
+                    System.out.println("\tCadastrado com sucesso!!");
                     Thread.sleep(2000);
 
                     break;
@@ -67,12 +67,12 @@ public final class App {
                         itemEncontrado.setDescricao(novaDescricao);
                         Item itemAlterado = itemDAO.editar(itemEncontrado);
 
-                        System.out.println("Item alterado com sucesso!!");
+                        System.out.println("\tItem alterado com sucesso!!");
                         System.out.println(itemAlterado.toString());
 
                         Thread.sleep(2000);
                     } else {
-                        System.err.println("Item não encontrado para esse ID.");
+                        System.err.println("\tItem não encontrado para esse ID.");
                         Thread.sleep(2000);
                     }
 
@@ -88,10 +88,10 @@ public final class App {
                     if (verificarItemValido(itemEncontrado)) {
                         itemDAO.deletar(itemEncontrado.getId());
 
-                        System.out.println("Item deletado com sucesso!");
+                        System.out.println("\tItem deletado com sucesso!");
                         Thread.sleep(2000);
                     } else {
-                        System.err.println("Item não encontrado para esse ID.");
+                        System.out.println("\tItem não encontrado para esse ID.");
                         Thread.sleep(2000);
                     }
 
@@ -99,17 +99,17 @@ public final class App {
 
                 case 4:
 
-                    System.out.println("\t\t\t\tDigite o ID do Item: ");
-                    id = scanner.nextLong();
+                    System.out.println("\t\t\t\tDigite a descrição do Item: ");
+                    String descricao = scanner.nextLine();
 
-                    itemEncontrado = itemDAO.buscarPorId(id);
+                    itemEncontrado = itemDAO.buscarPorDescricao(descricao);
 
                     if (verificarItemValido(itemEncontrado)) {
 
                         System.out.println(itemEncontrado.toString());
                         Thread.sleep(4000);
                     } else {
-                        System.err.println("Item não encontrado para esse ID.");
+                        System.out.println("\tItem não encontrado para essa descrição.");
                         Thread.sleep(2000);
                     }
 
@@ -137,7 +137,7 @@ public final class App {
                         Thread.sleep(2000);
 
                     } else {
-                        System.err.println("Item não encontrado para esse ID.");
+                        System.out.println("\tItem não encontrado para esse ID.");
                         Thread.sleep(2000);
                     }
 
@@ -149,9 +149,10 @@ public final class App {
                     itensRealizados.stream().forEach(itemIt -> System.out.println(itemIt.toString()));
 
                     if (itensRealizados.isEmpty()) {
-                        System.err.println("\tNão há Itens realizados!!");
+                        System.out.println("\tNão há Itens realizados!!");
+                       
                     }
-
+                    Thread.sleep(2000);
                     break;
 
                 case 7:
@@ -160,16 +161,17 @@ public final class App {
                     itensAtivos.stream().forEach(itemIt -> System.out.println(itemIt.toString()));
 
                     if (itensAtivos.isEmpty()) {
-                        System.err.println("\tNão há Itens ativos!!");
+                        System.out.println("\tNão há Itens ativos!!");
                     }
 
+                    Thread.sleep(2000);
                     break;
 
                 case 0:
                     break;
 
                 default:
-                    System.err.println("\tOpção Invalida!!");
+                    System.out.println("\tOpção Invalida!!");
                     break;
             }
 

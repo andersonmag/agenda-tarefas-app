@@ -85,6 +85,17 @@ public class ItemDAOTest {
     }
 
     @Test
+    @DisplayName(value = "Deve alterar status de realizado")
+    public void alterarStatusRealizado() {
+        Long id = 1L;
+        boolean realizado = false;
+        Item itemExistente = itemDAO.buscarPorId(id);
+        itemExistente.setRealizado(realizado);
+        
+        itemDAO.alterarStatusRealizado(itemExistente);
+    }
+
+    @Test
     @DisplayName(value = "Deve retornar uma Lista, não vazia, com todos os itens realizados!")
     public void buscarTodosItensRealizados() {
         List<Item> itensRealizados = itemDAO.buscarTodosItensRealizados();
@@ -117,6 +128,6 @@ public class ItemDAOTest {
     }
 
     private Item getItem() {
-        return new Item(3L, "Estudar JS", LocalDate.now(), true, true);
+        return new Item(1L, "Estudar JS", LocalDate.now(), true, true);
     }
 }

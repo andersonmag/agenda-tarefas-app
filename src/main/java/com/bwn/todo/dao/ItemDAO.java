@@ -65,33 +65,6 @@ public class ItemDAO {
         return item;
     }
 
-	public void editar(Item item) {
-        this.sql = "update item set descricao = ? where id = " + item.getId();
-
-        try {
-            PreparedStatement statement = this.connection.prepareStatement(sql);
-            statement.setString(1, item.getDescricao());
-
-            statement.execute();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-	}
-
-	public void deletar(Long id) {
-        this.sql = "delete from item where id = " + id;
-
-        try {
-            PreparedStatement statement = this.connection.prepareStatement(sql);
-            statement.execute();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-	}
-
 	public Item buscarPorDescricao(String descricao) {
         this.sql = "select * from item where descricao = ?";
         Item item = new Item();
@@ -117,6 +90,47 @@ public class ItemDAO {
         }
 
         return item;
+	}
+    
+	public void alterarStatusRealizado(Item item) {
+        this.sql = "update item set realizado = ? where id = " + item.getId();
+
+        try {
+            PreparedStatement statement = this.connection.prepareStatement(sql);
+            statement.setBoolean(1, item.isRealizado());
+
+            statement.execute();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+	}
+
+	public void editar(Item item) {
+        this.sql = "update item set descricao = ? where id = " + item.getId();
+
+        try {
+            PreparedStatement statement = this.connection.prepareStatement(sql);
+            statement.setString(1, item.getDescricao());
+
+            statement.execute();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+	}
+
+	public void deletar(Long id) {
+        this.sql = "delete from item where id = " + id;
+
+        try {
+            PreparedStatement statement = this.connection.prepareStatement(sql);
+            statement.execute();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 	}
 
 	public List<Item> buscarTodosItensRealizados() {

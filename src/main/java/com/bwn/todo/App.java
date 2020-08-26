@@ -72,7 +72,7 @@ public final class App {
 
                         Thread.sleep(2000);
                     } else {
-                        System.err.println("\tItem não encontrado para esse ID.");
+                        System.out.println("\tItem não encontrado para esse ID.");
                         Thread.sleep(2000);
                     }
 
@@ -124,7 +124,7 @@ public final class App {
 
                     if (verificarItemValido(itemEncontrado)) {
                         if (itemEncontrado.isRealizado()) {
-                            System.err.println("\tItem já foi realizado!");
+                            System.out.println("\tItem já foi realizado!");
                             break;
                         }
 

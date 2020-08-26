@@ -51,7 +51,7 @@ public class ItemDAOTest {
     @Test
     @DisplayName(value = "Deve buscar e retornar, pela Descrição, um Item Existente")
     public void buscarItemPorDescricao() {
-        String descricao = "Fazer Projeto POO";
+        String descricao = "Estudar JS";
         Item itemExistente = itemDAO.buscarPorDescricao(descricao);
         
         assertNotNull(itemExistente.getId());
@@ -105,8 +105,10 @@ public class ItemDAOTest {
     public void alterarStatusRealizado() {
         Long id = 1L;
         boolean realizado = true;
+        boolean ativo = false;
         Item itemExistente = itemDAO.buscarPorId(id);
         itemExistente.setRealizado(realizado);
+        itemExistente.setAtivo(ativo);
         
         itemDAO.alterarStatusRealizado(itemExistente);
     }

@@ -21,7 +21,7 @@ public class ItemDAO {
     }
 
     public void salvar(Item item) {
-        this.sql = "insert into item(descricao, \"dataCriacao\", ativo, realizado) values(?, ?, ?, ?)";
+        this.sql = "insert into item(descricao, dataCriacao, ativo, realizado) values(?, ?, ?, ?)";
 
         try {
 

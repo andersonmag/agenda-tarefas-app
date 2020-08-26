@@ -5,7 +5,6 @@ import java.time.format.DateTimeFormatter;
 
 public class Item {
 
-    // AUTO_INCREMENT
     private Long id;
 
     private String descricao;
